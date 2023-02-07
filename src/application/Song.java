@@ -29,12 +29,20 @@ public class Song {
         return year;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 
     public void setAlbum(String album) {
         this.album = album;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     @Override
