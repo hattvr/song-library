@@ -1,4 +1,11 @@
-package application;
+/*
+Rutgers University CS213 Software Methodology
+Assignment 1 - Song Library Application
+@author Zaeem Zahid
+@author Shiv Patel
+*/
+
+package models;
 
 public class Song implements Comparable<Song>{
     private String title;
