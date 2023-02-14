@@ -39,34 +39,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane alignment="CENTER" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="961.0" text="Song Library" textAlignment="CENTER" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19">
+<TitledPane alignment="CENTER" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="961.0" text="Song Library" textAlignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="708.0" prefWidth="872.0">
          <children>
-            <SplitPane dividerPositions="0.4332084893882647" layoutX="14.0" layoutY="14.0" prefHeight="642.0" prefWidth="923.0">
+            <SplitPane dividerPositions="0.4332084893882647" layoutX="14.0" layoutY="14.0" prefHeight="642.0" prefWidth="923.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="640.0" prefWidth="1049.0">
                      <children>
-                        <ScrollPane hbarPolicy="ALWAYS" layoutX="-1.0" layoutY="-1.0" prefHeight="586.0" prefWidth="398.0" vbarPolicy="ALWAYS">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" layoutX="-1.0" layoutY="-1.0" prefHeight="578.0" prefWidth="386.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                           </content>
                         </ScrollPane>
-                        <Button layoutX="14.0" layoutY="592.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="366.0" text="Add New Song" />
+                        <Button layoutX="14.0" layoutY="592.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="366.0" style="-fx-background-color: #4293f5; -fx-background-radius: 5; -fx-text-fill: white;" text="Add New Song" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="648.0" prefWidth="441.0">
                      <children>
-                        <Button contentDisplay="CENTER" layoutX="14.0" layoutY="558.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="492.0" text="Edit Song" textAlignment="CENTER">
-                           <font>
-                              <Font name="Serif Regular" size="12.0" />
-                           </font>
-                        </Button>
-                        <Button contentDisplay="CENTER" layoutX="14.0" layoutY="594.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="492.0" text="Delete Song" textAlignment="CENTER">
-                           <font>
-                              <Font name="Serif Regular" size="12.0" />
-                           </font>
-                        </Button>
+                        <SplitPane dividerPositions="0.8364197530864198" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                          <items>
+                              <AnchorPane prefHeight="345.0" prefWidth="522.0" />
+                              <AnchorPane prefHeight="100.0" prefWidth="522.0">
+                                 <children>
+                                    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="4.100000381469727" layoutY="52.0999755859375" mnemonicParsing="false" prefHeight="42.0" prefWidth="469.0" style="-fx-background-color: #b31b37; -fx-background-radius: 5; -fx-text-fill: white;" text="Delete Song" textAlignment="CENTER" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="4.100000381469727" layoutY="3.0999755859375" mnemonicParsing="false" prefHeight="42.0" prefWidth="469.0" style="-fx-background-color: #3ba16e; -fx-background-radius: 5; -fx-text-fill: white;" text="Edit Song" textAlignment="CENTER" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
                      </children>
                   </AnchorPane>
               </items>
