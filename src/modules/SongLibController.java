@@ -20,6 +20,7 @@ import org.json.JSONException;
 
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -69,6 +70,19 @@ public class SongLibController implements Initializable {
         JSONArray songArray = new JSONArray(obSongList);
         FileWriter file = new FileWriter("src/songs.json");
         file.write(songArray.toString());
+        file.close();
     } 
+    
+    public void deleteSong(ActionEvent event) {
+        
+    }
+    
+    public void addSong(ActionEvent event) {
+        
+    }
+    
+    public void editSong(ActionEvent event) {
+        
+    }
     
 }
