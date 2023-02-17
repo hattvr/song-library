@@ -68,7 +68,7 @@ public class SongLibController implements Initializable {
     
     private void saveToFile(ObservableList<Song> songList) throws IOException {
         JSONArray songArray = new JSONArray(obSongList);
-        FileWriter file = new FileWriter("src/songs.json");
+        FileWriter file = new FileWriter("json/songs.json");
         file.write(songArray.toString());
         file.close();
     } 
