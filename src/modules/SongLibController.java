@@ -66,7 +66,7 @@ public class SongLibController implements Initializable {
         }
     }
     
-    private void saveSongs(ObservableList<Song> songList) throws IOException {
+    private void saveToFile(ObservableList<Song> songList) throws IOException {
         JSONArray songArray = new JSONArray(obSongList);
         FileWriter file = new FileWriter("src/songs.json");
         file.write(songArray.toString());
@@ -74,7 +74,16 @@ public class SongLibController implements Initializable {
     } 
     
     public void deleteSong(ActionEvent event) {
-        
+        Button button = (Button) event.getSource();
+        if (button == deleteButton) {
+            if(obSongList.size() == 0) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("No songs to delete");
+                alert.showAndWait();
+            }
+        }
     }
     
     public void addSong(ActionEvent event) {
