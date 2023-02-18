@@ -16,48 +16,46 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 public class SongLibController implements Initializable {
-    @FXML 
-    private ListView<Song> songList;
-    @FXML
-    public ListView<Song> songList;
-    @FXML
-    private TextField titleField;
-    @FXML
-    private TextField artistField;
-    @FXML
-    private TextField albumField;
-    @FXML
-    private TextField yearField;
-    @FXML
-    private Button addButton;
-    @FXML
-    private Button editButton;
-    @FXML
-    private Button deleteButton;
-    @FXML
-    ObservableList<Song> obSongList;
+    @FXML // fx:id="ALBUM_LIST_VIEW"
+    ListView<Song> songList;
+    @FXML // fx:id="ADD_SONG_BUTTON"
+    Button addButton;
+    @FXML // fx:id="EDIT_SONG_BUTTON"
+    Button editButton;
+    @FXML // fx:id="DELETE_SONG_BUTTON"
+    Button deleteButton;
+    @FXML // fx:id=""
+    TextField titleField;
+    @FXML // fx:id=""
+    TextField artistField;
+    @FXML // fx:id=""
+    TextField albumField;
+    @FXML // fx:id=""
+    TextField yearField;
+
+    private ObservableList<Song> obSongList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        obSongList = FXCollections.observableArrayList();
+        songList.setItems(obSongList);
+
         return;
     }
-    
+
     // Reading the contents of a file and returning it as a string
     private String readFile(String fileName) throws FileNotFoundException {
         File file = new File(fileName);
-        StringBuilder fileContents = new StringBuilder((int)file.length());
+        StringBuilder fileContents = new StringBuilder((int) file.length());
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 fileContents.append(scanner.nextLine() + System.lineSeparator());
@@ -65,18 +63,18 @@ public class SongLibController implements Initializable {
             return fileContents.toString();
         }
     }
-    
+
     private void saveToFile(ObservableList<Song> songList) throws IOException {
         JSONArray songArray = new JSONArray(obSongList);
         FileWriter file = new FileWriter("json/songs.json");
         file.write(songArray.toString());
         file.close();
-    } 
-    
+    }
+
     public void deleteSong(ActionEvent event) {
         Button button = (Button) event.getSource();
         if (button == deleteButton) {
-            if(obSongList.size() == 0) {
+            if (obSongList.size() == 0) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
@@ -85,13 +83,13 @@ public class SongLibController implements Initializable {
             }
         }
     }
-    
+
     public void addSong(ActionEvent event) {
-        
+
     }
-    
+
     public void editSong(ActionEvent event) {
-        
+
     }
-    
+
 }
