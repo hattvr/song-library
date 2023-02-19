@@ -91,7 +91,12 @@ public class SongLibController implements Initializable {
     }
 
     public void addSong(ActionEvent event) {
-
+        if(titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter a title and artist");
+            alert.showAndWait();
     }
 
     public void editSong(ActionEvent event) {
