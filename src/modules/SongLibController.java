@@ -3,19 +3,22 @@ package modules;
 import models.Song;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
@@ -24,45 +27,58 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 public class SongLibController implements Initializable {
-    @FXML // fx:id="ALBUM_LIST_VIEW"
-    ListView<Song> songList;
-    @FXML // fx:id="ADD_SONG_BUTTON"
-    Button addButton;
-    @FXML // fx:id="EDIT_SONG_BUTTON"
-    Button editButton;
-    @FXML // fx:id="DELETE_SONG_BUTTON"
-    Button deleteButton;
-    @FXML // fx:id=""
-    TextField titleField;
-    @FXML // fx:id=""
-    TextField artistField;
-    @FXML // fx:id=""
-    TextField albumField;
-    @FXML // fx:id=""
-    TextField yearField;
+    @FXML ListView<Song> songList;
+    
+    @FXML Button addButton;
+    @FXML Button editButton;
+    @FXML Button deleteButton;
+    
+    @FXML TextField titleField;
+    @FXML TextField artistField;
+    @FXML TextField albumField;
+    @FXML TextField yearField;
 
-    private ObservableList<Song> obSongList = FXCollections.observableArrayList();
+    ObservableList<Song> obSongList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            readFile("src/attributes/songs.json");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         return;
     }
 
     // Reading the contents of a file and returning it as a string
-    private String readFile(String fileName) throws FileNotFoundException {
-        File file = new File(fileName);
-        StringBuilder fileContents = new StringBuilder((int) file.length());
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNextLine()) {
-                fileContents.append(scanner.nextLine() + System.lineSeparator());
+    private void readFile(String fileName) throws FileNotFoundException {
+        Path fp = Paths.get(fileName);
+
+        try {
+            String content = new String(Files.readAllBytes(fp), StandardCharsets.UTF_8);
+            JSONArray jsonArray = new JSONArray(content);
+        
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String title = jsonObject.getString("title");
+                String artist = jsonObject.getString("artist");
+                String album = jsonObject.getString("album");
+                String year = jsonObject.getString("year");
+                Song song = new Song(title, artist, album, year);
+                
+                obSongList.add(song);
             }
-            return fileContents.toString();
+            
+            songList.setItems(obSongList);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     private void saveToFile(ObservableList<Song> songList) throws IOException {
         JSONArray songArray = new JSONArray();
-        FileWriter file = new FileWriter("json/songs.json");
+        FileWriter file = new FileWriter("attributes/songs.json");
         file.write(songArray.toString());
         file.close();
     }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.25" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.25" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="modules.SongPreviewController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="50.0">
          <children>
@@ -24,11 +24,11 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <TextField fx:id="SONG_NAME_FIELD" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="283.0" promptText="Song Name" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <TextField fx:id="songNameField" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="283.0" promptText="Song Name" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                <font>
                   <Font name="Microsoft Tai Le Bold" size="28.0" />
                </font></TextField>
-            <TextField fx:id="ARTIST_NAME_FIELD" layoutX="20.0" layoutY="79.0" promptText="Artist" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <TextField fx:id="artistNameField" layoutX="20.0" layoutY="79.0" promptText="Artist" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                <font>
                   <Font size="15.0" />
                </font></TextField>
