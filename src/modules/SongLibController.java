@@ -102,16 +102,13 @@ public class SongLibController implements Initializable {
     }
 
     public void addSong(ActionEvent event) {
+        int count = 0;
         if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
+        } else if(!isValidYear(yearField.getText())) {
+            sendAlert(AlertType.ERROR, "Error", null, "Please enter a valid year");
         } else {
-            Song song = new Song(
-                titleField.getText(),
-                artistField.getText(),
-                albumField.getText(),
-                yearField.getText()
-            );
-
+            Song song = new Song(titleField.getText(), artistField.getText(), albumField.getText(), yearField.getText());
             obSongList.add(song);
             songList.setItems(obSongList);
             resetSong();
@@ -152,5 +149,14 @@ public class SongLibController implements Initializable {
         alert.showAndWait();
 
         return alert;
+    }
+    
+    private boolean isValidYear(String yearString) {
+        try {
+            int year = Integer.parseInt(yearString);
+            return year >= 0 && year <= 9999;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
