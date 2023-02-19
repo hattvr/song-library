@@ -71,24 +71,32 @@ public class SongLibController implements Initializable {
         file.close();
     }
 
-    public void deleteSong(ActionEvent event) {
+    public void deleteSong(ActionEvent event) throws IOException {
         Button button = (Button) event.getSource();
         if (button == deleteButton) {
-            if (obSongList.size() == 0) {
+            if(obSongList.size() == 0) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
                 alert.setContentText("No songs to delete");
                 alert.showAndWait();
+                return;
+            } else {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to delete this song?");
+                alert.showAndWait();
+                if(alert.getResult() == ButtonType.OK) {
+                    obSongList.remove(songList.getSelectionModel().getSelectedIndex());
+                    songList.setItems(obSongList);
+                    titleField.clear();
+                    artistField.clear();
+                    albumField.clear();
+                    yearField.clear();
+                }
             }
-        } else {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to delete this song?");
-            alert.showAndWait();
-        }
-    }
+        } 
 
     public void addSong(ActionEvent event) {
         if(titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
