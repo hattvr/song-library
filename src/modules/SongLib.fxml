@@ -39,7 +39,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane alignment="CENTER" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="961.0" text="Song Library" textAlignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<TitledPane alignment="CENTER" animated="false" collapsible="false" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="961.0" text="Song Library" textAlignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="modules.SongLibController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="708.0" prefWidth="872.0">
          <children>
@@ -54,7 +54,7 @@
                         </AnchorPane>
                       <AnchorPane minHeight="60.0" minWidth="0.0" prefHeight="62.0" prefWidth="398.0" SplitPane.resizableWithParent="false">
                            <children>
-                              <Button fx:id="ADD_SONG_BUTTON" layoutX="14.0" layoutY="592.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="366.0" style="-fx-background-color: #4293f5; -fx-background-radius: 5; -fx-text-fill: white;" text="Add New Song" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                              <Button fx:id="ADD_SONG_BUTTON" layoutX="14.0" layoutY="592.0" mnemonicParsing="false" onAction="#addSong" prefHeight="40.0" prefWidth="366.0" style="-fx-background-color: #4293f5; -fx-background-radius: 5; -fx-text-fill: white;" text="Add New Song" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                            </children>
                         </AnchorPane>
                     </items>
@@ -66,8 +66,8 @@
                               <AnchorPane prefHeight="345.0" prefWidth="522.0" />
                               <AnchorPane prefHeight="100.0" prefWidth="522.0">
                                  <children>
-                                    <Button fx:id="DELETE_SONG_BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutX="4.100000381469727" layoutY="52.0999755859375" mnemonicParsing="false" prefHeight="42.0" prefWidth="469.0" style="-fx-background-color: #b31b37; -fx-background-radius: 5; -fx-text-fill: white;" text="Delete Song" textAlignment="CENTER" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                                    <Button fx:id="EDIT_SONG_BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutX="4.100000381469727" layoutY="3.0999755859375" mnemonicParsing="false" prefHeight="42.0" prefWidth="469.0" style="-fx-background-color: #3ba16e; -fx-background-radius: 5; -fx-text-fill: white;" text="Edit Song" textAlignment="CENTER" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                    <Button fx:id="DELETE_SONG_BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutX="4.100000381469727" layoutY="52.0999755859375" mnemonicParsing="false" onAction="#deleteSong" prefHeight="42.0" prefWidth="469.0" style="-fx-background-color: #b31b37; -fx-background-radius: 5; -fx-text-fill: white;" text="Delete Song" textAlignment="CENTER" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                    <Button fx:id="EDIT_SONG_BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutX="4.100000381469727" layoutY="3.0999755859375" mnemonicParsing="false" onAction="#editSong" prefHeight="42.0" prefWidth="469.0" style="-fx-background-color: #3ba16e; -fx-background-radius: 5; -fx-text-fill: white;" text="Edit Song" textAlignment="CENTER" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
                                  </children>
                               </AnchorPane>
                           </items>

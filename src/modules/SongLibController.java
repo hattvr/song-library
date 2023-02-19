@@ -41,14 +41,10 @@ public class SongLibController implements Initializable {
     @FXML // fx:id=""
     TextField yearField;
 
-    private ObservableList<Song> obSongList;
+    private ObservableList<Song> obSongList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        obSongList = FXCollections.observableArrayList();
-        songList.setItems(obSongList);
-
         return;
     }
 
