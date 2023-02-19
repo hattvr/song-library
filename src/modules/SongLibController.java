@@ -74,20 +74,13 @@ public class SongLibController implements Initializable {
     public void deleteSong(ActionEvent event) throws IOException {
         Button button = (Button) event.getSource();
         if (button == deleteButton) {
-            if(obSongList.size() == 0) {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("No songs to delete");
-                alert.showAndWait();
+            if (obSongList.size() == 0) {
+                sendAlert(AlertType.ERROR, "Error", null, "No songs to delete");
                 return;
             } else {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to delete this song?");
-                alert.showAndWait();
-                if(alert.getResult() == ButtonType.OK) {
+                Alert alert = sendAlert(AlertType.CONFIRMATION, "Confirmation", null, "Are you sure you want to delete this song?");
+
+                if (alert.getResult() == ButtonType.OK) {
                     obSongList.remove(songList.getSelectionModel().getSelectedIndex());
                     songList.setItems(obSongList);
                     titleField.clear();
@@ -96,19 +89,59 @@ public class SongLibController implements Initializable {
                     yearField.clear();
                 }
             }
-        } 
+        }
+    }
 
     public void addSong(ActionEvent event) {
-        if(titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Please enter a title and artist");
-            alert.showAndWait();
+        if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
+            sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
+        } else {
+            Song song = new Song(
+                titleField.getText(),
+                artistField.getText(),
+                albumField.getText(),
+                yearField.getText()
+            );
+
+            obSongList.add(song);
+            songList.setItems(obSongList);
+            resetSong();
+        }
     }
 
     public void editSong(ActionEvent event) {
+        Song selectedSong = songList.getSelectionModel().getSelectedItem();
 
+        if (selectedSong == null) {
+            sendAlert(AlertType.ERROR, "Error", null, "Please select a song to edit");
+        } else if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
+            sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
+        } else {
+            selectedSong.setTitle(titleField.getText());
+            selectedSong.setArtist(artistField.getText());
+            selectedSong.setAlbum(albumField.getText());
+            selectedSong.setYear(yearField.getText());
+            songList.setItems(obSongList);
+            resetSong();
+        }
+        
+        return;
+        }
+
+    public void resetSong() {
+        titleField.setText("");
+        artistField.setText("");
+        albumField.setText("");
+        yearField.setText("");
     }
 
+    public Alert sendAlert(AlertType alert_type, String title, String header, String content) {
+        Alert alert = new Alert(alert_type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+
+        return alert;
+    }
 }
