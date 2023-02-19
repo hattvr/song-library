@@ -83,10 +83,7 @@ public class SongLibController implements Initializable {
                 if (alert.getResult() == ButtonType.OK) {
                     obSongList.remove(songList.getSelectionModel().getSelectedIndex());
                     songList.setItems(obSongList);
-                    titleField.clear();
-                    artistField.clear();
-                    albumField.clear();
-                    yearField.clear();
+                    resetSong();
                 }
             }
         }
