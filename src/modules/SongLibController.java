@@ -81,6 +81,12 @@ public class SongLibController implements Initializable {
                 alert.setContentText("No songs to delete");
                 alert.showAndWait();
             }
+        } else {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete this song?");
+            alert.showAndWait();
         }
     }
 
