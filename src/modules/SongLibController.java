@@ -66,7 +66,7 @@ public class SongLibController implements Initializable {
                 String album = jsonObject.getString("album");
                 String year = jsonObject.getString("year");
                 Song song = new Song(title, artist, album, year);
-                
+
                 obSongList.add(song);
             }
             
