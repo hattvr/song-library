@@ -136,20 +136,33 @@ public class SongLibController implements Initializable {
             return;
         }
 
-        if (obSongList.size() == 0) {
+        if (obSongList.isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "No songs to delete");
             return;
-        } else {
-            Alert alert = sendAlert(AlertType.CONFIRMATION, "Confirmation", null, "Are you sure you want to delete this song?");
-
-            if (alert.getResult() == ButtonType.OK) {
-                obSongList.remove(songList.getSelectionModel().getSelectedIndex());
-                songList.setItems(obSongList);
+        }
+    
+        int selectedIndex = songList.getSelectionModel().getSelectedIndex();
+        if (selectedIndex == -1) {
+            sendAlert(AlertType.ERROR, "Error", null, "No song selected");
+            return;
+        }
+    
+        Alert alert = sendAlert(AlertType.CONFIRMATION, "Confirmation", null, "Are you sure you want to delete this song?");
+        if (alert.getResult() == ButtonType.OK) {
+            obSongList.remove(selectedIndex);
+            songList.setItems(obSongList);
+    
+            saveToFile(obSongList);
+    
+            if (obSongList.isEmpty()) {
                 resetSong();
-                saveToFile(obSongList);
-
-                sendAlert(AlertType.INFORMATION, "Success", null, "Successfully deleted song from library!");
+            } else if (selectedIndex < obSongList.size()) {
+                songList.getSelectionModel().select(selectedIndex);
+            } else {
+                songList.getSelectionModel().select(selectedIndex - 1);
             }
+    
+            sendAlert(AlertType.INFORMATION, "Success", null, "Successfully deleted song from library!");
         }
     }
 

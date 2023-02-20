@@ -12,12 +12,6 @@
         "title": "ab"
     },
     {
-        "artist": "cddd",
-        "year": "",
-        "album": "",
-        "title": "ab"
-    },
-    {
         "artist": "Logic",
         "year": "2019",
         "album": "Supermarket (Soundtrack)",
@@ -40,11 +34,5 @@
         "year": "2019",
         "album": "Supermarket (Soundtrack)",
         "title": "Lemon Drop"
-    },
-    {
-        "artist": "zaeem",
-        "year": "2023",
-        "album": "",
-        "title": "one way"
     }
 ]
