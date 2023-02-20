@@ -101,22 +101,19 @@ public class SongLibController implements Initializable {
         }
     }
 
-    public void editSong(ActionEvent event) {
-        Song selectedSong = songList.getSelectionModel().getSelectedItem();
-        if (selectedSong == null) {
-            sendAlert(AlertType.ERROR, "Error", null, "Please select a song to edit");
-        } else if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
+    public void addSong(ActionEvent event) throws IOException {
+        int count = 0;
+        if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
+        } else if(!isValidYear(yearField.getText())) {
+            sendAlert(AlertType.ERROR, "Error", null, "Please enter a valid year");
         } else {
-            selectedSong.setTitle(titleField.getText());
-            selectedSong.setArtist(artistField.getText());
-            selectedSong.setAlbum(albumField.getText());
-            selectedSong.setYear(yearField.getText());
+            Song song = new Song(titleField.getText(), artistField.getText(), albumField.getText(), yearField.getText());
+            obSongList.add(song);
             songList.setItems(obSongList);
             resetSong();
         }
-        
-        return;
+        saveToFile(obSongList);
     }
 
     public void editSong(ActionEvent event) {
