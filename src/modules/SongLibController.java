@@ -161,6 +161,7 @@ public class SongLibController implements Initializable {
                 sendAlert(AlertType.ERROR, "Error", null, "A song with the same name and artist already exists!");
             } else {
                 obSongList.add(song);
+                obSongList.sort((s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()) == 0 ? s1.getArtist().compareToIgnoreCase(s2.getArtist()) : s1.getTitle().compareToIgnoreCase(s2.getTitle()));
                 songList.setItems(obSongList);
                 resetSong();
                 saveToFile(obSongList);
@@ -189,6 +190,7 @@ public class SongLibController implements Initializable {
             selectedSong.setYear(yearField.getText());
             
             songList.setItems(obSongList);
+            obSongList.sort((s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()) == 0 ? s1.getArtist().compareToIgnoreCase(s2.getArtist()) : s1.getTitle().compareToIgnoreCase(s2.getTitle()));
             songList.refresh();
             saveToFile(obSongList);
             sendAlert(AlertType.CONFIRMATION, "Success", null, "Successfully edited song!");
