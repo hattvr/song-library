@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javafx.collections.ObservableList;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
@@ -44,11 +45,25 @@ public class SongLibController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             readFile("attributes/songs.json");
+
+            songList.getSelectionModel().selectedItemProperty().addListener(this::selectionManager);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         return;
+    }
+
+    private void selectionManager(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+        if (newValue != null) {
+            titleField.setText(newValue.getTitle());
+            artistField.setText(newValue.getArtist());
+            albumField.setText(newValue.getAlbum());
+            yearField.setText(newValue.getYear());
+        } else {
+            resetSong();
+        }
     }
 
     // Reading the contents of a file and returning it as a string
