@@ -198,10 +198,10 @@ public class SongLibController implements Initializable {
     }
 
     public void resetSong() {
-        titleField.setText("");
-        artistField.setText("");
-        albumField.setText("");
-        yearField.setText("");
+        titleField.clear();
+        artistField.clear();
+        albumField.clear();
+        yearField.clear();
     }
 
     public Alert sendAlert(AlertType alert_type, String title, String header, String content) {
