@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
@@ -44,8 +45,10 @@ public class SongLibController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            // Read the contents at startup and load them into the list view
             readFile("attributes/songs.json");
 
+            // Add a listener to list view selections
             songList.getSelectionModel().selectedItemProperty().addListener(this::selectionManager);
 
         } catch (FileNotFoundException e) {
@@ -91,7 +94,7 @@ public class SongLibController implements Initializable {
         }
     }
 
-    private void saveToFile(ObservableList<Song> songList) throws IOException {
+    private void saveToFile(ObservableList<Song> songList) {
         JSONArray songArray = new JSONArray();
 
         for (Song song : songList) {
@@ -137,6 +140,7 @@ public class SongLibController implements Initializable {
         if (songList.getSelectionModel().getSelectedItem() != null) {
             songList.getSelectionModel().clearSelection();
             resetSong();
+            return;
         }
 
 
@@ -164,7 +168,6 @@ public class SongLibController implements Initializable {
                 sendAlert(AlertType.CONFIRMATION, "Success", null, String.format("Successfully added %s by %s", title, artist));
             }
         }
-        saveToFile(obSongList);
     }
 
     public void editSong(ActionEvent event) {
@@ -174,20 +177,23 @@ public class SongLibController implements Initializable {
         } else if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
         } else {
-            for (Song song : obSongList) {
-                if (song.getTitle().equals(titleField.getText()) && song.getArtist().equals(artistField.getText())) {
-                    sendAlert(AlertType.ERROR, "Error", null, "Song already exists");
-                    return;
-                }
+            boolean alreadyExists = obSongList.stream().anyMatch(s -> s.getTitle().equals(titleField.getText()) && s.getArtist().equals(artistField.getText()));
+
+            if (alreadyExists) {
+                sendAlert(AlertType.ERROR, "Error", null, "A song with the same name and artist already exists!");
+                return;
             }
             selectedSong.setTitle(titleField.getText());
             selectedSong.setArtist(artistField.getText());
             selectedSong.setAlbum(albumField.getText());
             selectedSong.setYear(yearField.getText());
+            
             songList.setItems(obSongList);
-            resetSong();
+            songList.refresh();
+            saveToFile(obSongList);
+            sendAlert(AlertType.CONFIRMATION, "Success", null, "Successfully edited song!");
         }
-        
+
         return;
     }
 
