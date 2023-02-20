@@ -1,32 +1,26 @@
 [
     {
-        "title": "In My Room",
         "artist": "Frank Ocean",
+        "year": "2019",
         "album": "Single",
-        "year": "2019"
+        "title": "In My Room"
     },
     {
-        "title": "By the Bridge",
         "artist": "Logic",
+        "year": "2019",
         "album": "Supermarket (Soundtrack)",
-        "year": "2019"
+        "title": "By the Bridge"
     },
     {
-        "title": "Can I Kick It",
         "artist": "Logic, Juto",
+        "year": "2019",
         "album": "Supermarket (Soundtrack)",
-        "year": "2019"
+        "title": "Can I Kick It"
     },
     {
-        "title": "Baby",
         "artist": "Logic",
+        "year": "2019",
         "album": "Supermarket (Soundtrack)",
-        "year": "2019"
-    },
-    {
-        "title": "Lemon Drop",
-        "artist": "Logic",
-        "album": "Supermarket (Soundtrack)",
-        "year": "2019"
+        "title": "Lemon Drop"
     }
 ]

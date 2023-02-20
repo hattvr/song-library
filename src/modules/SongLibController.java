@@ -43,7 +43,7 @@ public class SongLibController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            readFile("src/attributes/songs.json");
+            readFile("attributes/songs.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -78,9 +78,22 @@ public class SongLibController implements Initializable {
 
     private void saveToFile(ObservableList<Song> songList) throws IOException {
         JSONArray songArray = new JSONArray();
-        FileWriter file = new FileWriter("attributes/songs.json");
-        file.write(songArray.toString());
-        file.close();
+
+        for (Song song : songList) {
+            JSONObject songObject = new JSONObject();
+            songObject.put("title", song.getTitle());
+            songObject.put("artist", song.getArtist());
+            songObject.put("album", song.getAlbum());
+            songObject.put("year", song.getYear());
+            songArray.put(songObject);
+        }
+        
+        try (FileWriter writer = new FileWriter("attributes/songs.json")) {
+            writer.write(songArray.toString(4));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void deleteSong(ActionEvent event) throws IOException {
@@ -96,15 +109,25 @@ public class SongLibController implements Initializable {
                     obSongList.remove(songList.getSelectionModel().getSelectedIndex());
                     songList.setItems(obSongList);
                     resetSong();
+                    saveToFile(obSongList);
+
+                    sendAlert(AlertType.INFORMATION, "Success", null, "Successfully deleted song from library!");
                 }
             }
         }
     }
 
     public void addSong(ActionEvent event) throws IOException {
+        // Check if a song is selected and clear it
+        if (songList.getSelectionModel().getSelectedItem() != null) {
+            songList.getSelectionModel().clearSelection();
+            resetSong();
+        }
+
+
         if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
-        } else if(!isValidYear(yearField.getText())) {
+        } else if (!isValidYear(yearField.getText())) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a valid year");
         } else {
             String title = titleField.getText();
@@ -112,14 +135,18 @@ public class SongLibController implements Initializable {
             String album = albumField.getText();
             String year = yearField.getText();
             Song song = new Song(title, artist, album, year);
-            boolean alreadyExists = obSongList.stream().anyMatch(songs -> song.getTitle().equals(title) && song.getArtist().equals(artist));
+
+            boolean alreadyExists = obSongList.stream().anyMatch(s -> s.getTitle().equals(title) && s.getArtist().equals(artist));
+
             if (alreadyExists) {
-                sendAlert(AlertType.ERROR, "Error", null, "A song with the same name and artist already exists");
+                sendAlert(AlertType.ERROR, "Error", null, "A song with the same name and artist already exists!");
             } else {
                 obSongList.add(song);
                 songList.setItems(obSongList);
                 resetSong();
                 saveToFile(obSongList);
+
+                sendAlert(AlertType.CONFIRMATION, "Success", null, String.format("Successfully added %s by %s", title, artist));
             }
         }
     }
