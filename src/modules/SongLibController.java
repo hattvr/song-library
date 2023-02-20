@@ -101,27 +101,22 @@ public class SongLibController implements Initializable {
         }
     }
 
-    public void addSong(ActionEvent event) throws IOException {
-        if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
+    public void editSong(ActionEvent event) {
+        Song selectedSong = songList.getSelectionModel().getSelectedItem();
+        if (selectedSong == null) {
+            sendAlert(AlertType.ERROR, "Error", null, "Please select a song to edit");
+        } else if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
-        } else if(!isValidYear(yearField.getText())) {
-            sendAlert(AlertType.ERROR, "Error", null, "Please enter a valid year");
         } else {
-            String title = titleField.getText();
-            String artist = artistField.getText();
-            String album = albumField.getText();
-            String year = yearField.getText();
-            Song song = new Song(title, artist, album, year);
-            boolean alreadyExists = obSongList.stream().anyMatch(songs -> song.getTitle().equals(title) && song.getArtist().equals(artist));
-            if (alreadyExists) {
-                sendAlert(AlertType.ERROR, "Error", null, "A song with the same name and artist already exists");
-            } else {
-                obSongList.add(song);
-                songList.setItems(obSongList);
-                resetSong();
-                saveToFile(obSongList);
-            }
+            selectedSong.setTitle(titleField.getText());
+            selectedSong.setArtist(artistField.getText());
+            selectedSong.setAlbum(albumField.getText());
+            selectedSong.setYear(yearField.getText());
+            songList.setItems(obSongList);
+            resetSong();
         }
+        
+        return;
     }
 
     public void editSong(ActionEvent event) {
