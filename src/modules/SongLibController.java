@@ -101,17 +101,26 @@ public class SongLibController implements Initializable {
         }
     }
 
-    public void addSong(ActionEvent event) {
-        int count = 0;
+    public void addSong(ActionEvent event) throws IOException {
         if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
         } else if(!isValidYear(yearField.getText())) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a valid year");
         } else {
-            Song song = new Song(titleField.getText(), artistField.getText(), albumField.getText(), yearField.getText());
-            obSongList.add(song);
-            songList.setItems(obSongList);
-            resetSong();
+            String title = titleField.getText();
+            String artist = artistField.getText();
+            String album = albumField.getText();
+            String year = yearField.getText();
+            Song song = new Song(title, artist, album, year);
+            boolean alreadyExists = obSongList.stream().anyMatch(songs -> song.getTitle().equals(title) && song.getArtist().equals(artist));
+            if (alreadyExists) {
+                sendAlert(AlertType.ERROR, "Error", null, "A song with the same name and artist already exists");
+            } else {
+                obSongList.add(song);
+                songList.setItems(obSongList);
+                resetSong();
+                saveToFile(obSongList);
+            }
         }
     }
 
