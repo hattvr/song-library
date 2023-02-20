@@ -1,3 +1,10 @@
+/*
+Rutgers University CS213 Software Methodology
+Assignment 1 - Song Library Application
+@author Zaeem Zahid
+@author Shiv Patel
+*/
+
 package modules;
 
 import models.Song;
@@ -46,6 +53,8 @@ public class SongLibController implements Initializable {
         try {
             // Read the contents at startup and load them into the list view
             readFile("attributes/songs.json");
+            songList.getSelectionModel().select(0);
+            refreshSelection();
 
             // Add a listener to list view selections
             songList.getSelectionModel().selectedItemProperty().addListener(this::selectionManager);
@@ -116,28 +125,40 @@ public class SongLibController implements Initializable {
     }
 
     public void deleteSong(ActionEvent event) throws IOException {
-        Button button = (Button) event.getSource();
-        if (button == deleteButton) {
-            if (obSongList.size() == 0) {
-                sendAlert(AlertType.ERROR, "Error", null, "No songs to delete");
-                return;
-            } else {
-                Alert alert = sendAlert(AlertType.CONFIRMATION, "Confirmation", null, "Are you sure you want to delete this song?");
+        if (songList.isDisable()) {
+            // Re-enable the buttons on the interface
+            songList.setDisable(false);
+            editButton.setDisable(false);
+            deleteButton.setText("Delete Song");
 
-                if (alert.getResult() == ButtonType.OK) {
-                    obSongList.remove(songList.getSelectionModel().getSelectedIndex());
-                    songList.setItems(obSongList);
-                    resetSong();
-                    saveToFile(obSongList);
+            // Reset the song list selection
+            refreshSelection();
+            return;
+        }
 
-                    sendAlert(AlertType.INFORMATION, "Success", null, "Successfully deleted song from library!");
-                }
+        if (obSongList.size() == 0) {
+            sendAlert(AlertType.ERROR, "Error", null, "No songs to delete");
+            return;
+        } else {
+            Alert alert = sendAlert(AlertType.CONFIRMATION, "Confirmation", null, "Are you sure you want to delete this song?");
+
+            if (alert.getResult() == ButtonType.OK) {
+                obSongList.remove(songList.getSelectionModel().getSelectedIndex());
+                songList.setItems(obSongList);
+                resetSong();
+                saveToFile(obSongList);
+
+                sendAlert(AlertType.INFORMATION, "Success", null, "Successfully deleted song from library!");
             }
         }
     }
 
     public void addSong(ActionEvent event) throws IOException {
-        if (songList.getSelectionModel().getSelectedItem() != null) {
+        if (songList.getSelectionModel().getSelectedItem() != null && !songList.isDisable()) {
+            // Disable the buttons on the interface
+            songList.setDisable(true);
+            editButton.setDisable(true);
+            deleteButton.setText("Cancel Song Addition");
             resetSong();
             return;
         }
@@ -164,6 +185,10 @@ public class SongLibController implements Initializable {
                 songList.getSelectionModel().select(song);
                 saveToFile(obSongList);
 
+                songList.setDisable(false);
+                editButton.setDisable(false);
+                deleteButton.setText("Delete Song");
+
                 sendAlert(AlertType.CONFIRMATION, "Success", null, String.format("Successfully added %s by %s", title, artist));
             }
         }
@@ -171,21 +196,30 @@ public class SongLibController implements Initializable {
 
     public void editSong(ActionEvent event) {
         Song selectedSong = songList.getSelectionModel().getSelectedItem();
+
+        String title = titleField.getText().trim();
+        String artist = artistField.getText().trim();
+        String album = albumField.getText().trim();
+        String year = yearField.getText().trim();
+
         if (selectedSong == null) {
             sendAlert(AlertType.ERROR, "Error", null, "Please select a song to edit");
-        } else if (titleField.getText().trim().isEmpty() || artistField.getText().trim().isEmpty()) {
+        } else if (title.isEmpty() || artist.isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
+        } else if (!year.isEmpty() && !isValidYear(year)) {
+            sendAlert(AlertType.ERROR, "Error", null, "Please enter a valid year");
         } else {
-            boolean alreadyExists = obSongList.stream().anyMatch(s -> s.getTitle().equals(titleField.getText().trim()) && s.getArtist().equals(artistField.getText().trim()));
+            boolean alreadyExists = obSongList.stream().anyMatch(s -> s.getTitle().equals(title) && s.getArtist().equals(artist));
 
-            if (alreadyExists) {
+            if (alreadyExists && !selectedSong.getTitle().equals(title) && !selectedSong.getArtist().equals(artist)) {
                 sendAlert(AlertType.ERROR, "Error", null, "A song with the same name and artist already exists!");
                 return;
             }
-            selectedSong.setTitle(titleField.getText().trim());
-            selectedSong.setArtist(artistField.getText().trim());
-            selectedSong.setAlbum(albumField.getText().trim());
-            selectedSong.setYear(yearField.getText().trim());
+            
+            selectedSong.setTitle(title);
+            selectedSong.setArtist(artist);
+            selectedSong.setAlbum(album);
+            selectedSong.setYear(year);
             
             songList.setItems(obSongList);
             songList.refresh();
@@ -230,5 +264,13 @@ public class SongLibController implements Initializable {
             }
             return titleCompare;
         });
+    }
+
+    public void refreshSelection() {
+        Song song = songList.getSelectionModel().getSelectedItem();
+        titleField.setText(song.getTitle());
+        artistField.setText(song.getArtist());
+        albumField.setText(song.getAlbum());
+        yearField.setText(song.getYear());
     }
 }

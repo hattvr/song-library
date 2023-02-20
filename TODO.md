@@ -9,11 +9,11 @@
 
 ## Avoiding Point Deductions
 - [X] Make sure the window shows up on the screen
-- [ ] Make sure the application is terminated when closed
+- [X] Make sure the application is terminated when closed
 - [X] Main method in a class nammed SongLib
 - [X] Make sure there's no code directly under `src`
-- [ ] Write your name at the top of all the files
-- [ ] Make sure the list of songs is in alphabetical order
+- [X] Write your name at the top of all the files
+- [X] Make sure the list of songs is in alphabetical order
 - [X] Make sure the UI design uses FXML
 - [X] Make sure no extra windows other than application frame pops up randomly
 - [X] Make sure to not use Table View or Tree View anywhere
