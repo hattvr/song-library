@@ -88,6 +88,7 @@ public class SongLibController implements Initializable {
             }
             
             songList.setItems(obSongList);
+            sortSongList();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,13 +112,7 @@ public class SongLibController implements Initializable {
             e.printStackTrace();
         }
 
-        obSongList.sort((s1, s2) -> {
-            int titleCompare = s1.getTitle().compareToIgnoreCase(s2.getTitle());
-            if (titleCompare == 0) {
-                return s1.getArtist().compareToIgnoreCase(s2.getArtist());
-            }
-            return titleCompare;
-        });
+        sortSongList();
     }
 
     public void deleteSong(ActionEvent event) throws IOException {
@@ -142,23 +137,21 @@ public class SongLibController implements Initializable {
     }
 
     public void addSong(ActionEvent event) throws IOException {
-        // Check if a song is selected and clear it
         if (songList.getSelectionModel().getSelectedItem() != null) {
-            songList.getSelectionModel().clearSelection();
             resetSong();
             return;
         }
 
+        String title = titleField.getText().trim();
+        String artist = artistField.getText().trim();
+        String album = albumField.getText().trim();
+        String year = yearField.getText().trim();
 
-        if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
+        if (title.isEmpty() || artist.isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
-        } else if (!isValidYear(yearField.getText())) {
+        } else if (!year.isEmpty() && !isValidYear(year)) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a valid year");
         } else {
-            String title = titleField.getText().trim();
-            String artist = artistField.getText().trim();
-            String album = albumField.getText().trim();
-            String year = yearField.getText().trim();
             Song song = new Song(title, artist, album, year);
 
             boolean alreadyExists = obSongList.stream().anyMatch(s -> s.getTitle().equals(title) && s.getArtist().equals(artist));
@@ -168,7 +161,7 @@ public class SongLibController implements Initializable {
             } else {
                 obSongList.add(song);
                 songList.setItems(obSongList);
-                resetSong();
+                songList.getSelectionModel().select(song);
                 saveToFile(obSongList);
 
                 sendAlert(AlertType.CONFIRMATION, "Success", null, String.format("Successfully added %s by %s", title, artist));
@@ -180,19 +173,19 @@ public class SongLibController implements Initializable {
         Song selectedSong = songList.getSelectionModel().getSelectedItem();
         if (selectedSong == null) {
             sendAlert(AlertType.ERROR, "Error", null, "Please select a song to edit");
-        } else if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
+        } else if (titleField.getText().trim().isEmpty() || artistField.getText().trim().isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
         } else {
-            boolean alreadyExists = obSongList.stream().anyMatch(s -> s.getTitle().equals(titleField.getText()) && s.getArtist().equals(artistField.getText()));
+            boolean alreadyExists = obSongList.stream().anyMatch(s -> s.getTitle().equals(titleField.getText().trim()) && s.getArtist().equals(artistField.getText().trim()));
 
             if (alreadyExists) {
                 sendAlert(AlertType.ERROR, "Error", null, "A song with the same name and artist already exists!");
                 return;
             }
-            selectedSong.setTitle(titleField.getText());
-            selectedSong.setArtist(artistField.getText());
-            selectedSong.setAlbum(albumField.getText());
-            selectedSong.setYear(yearField.getText());
+            selectedSong.setTitle(titleField.getText().trim());
+            selectedSong.setArtist(artistField.getText().trim());
+            selectedSong.setAlbum(albumField.getText().trim());
+            selectedSong.setYear(yearField.getText().trim());
             
             songList.setItems(obSongList);
             songList.refresh();
@@ -227,5 +220,15 @@ public class SongLibController implements Initializable {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public void sortSongList() {
+        obSongList.sort((s1, s2) -> {
+            int titleCompare = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+            if (titleCompare == 0) {
+                return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+            }
+            return titleCompare;
+        });
     }
 }
