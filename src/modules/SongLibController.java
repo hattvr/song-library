@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
@@ -112,6 +111,13 @@ public class SongLibController implements Initializable {
             e.printStackTrace();
         }
 
+        obSongList.sort((s1, s2) -> {
+            int titleCompare = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+            if (titleCompare == 0) {
+                return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+            }
+            return titleCompare;
+        });
     }
 
     public void deleteSong(ActionEvent event) throws IOException {
@@ -149,10 +155,10 @@ public class SongLibController implements Initializable {
         } else if (!isValidYear(yearField.getText())) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a valid year");
         } else {
-            String title = titleField.getText();
-            String artist = artistField.getText();
-            String album = albumField.getText();
-            String year = yearField.getText();
+            String title = titleField.getText().trim();
+            String artist = artistField.getText().trim();
+            String album = albumField.getText().trim();
+            String year = yearField.getText().trim();
             Song song = new Song(title, artist, album, year);
 
             boolean alreadyExists = obSongList.stream().anyMatch(s -> s.getTitle().equals(title) && s.getArtist().equals(artist));
@@ -161,7 +167,6 @@ public class SongLibController implements Initializable {
                 sendAlert(AlertType.ERROR, "Error", null, "A song with the same name and artist already exists!");
             } else {
                 obSongList.add(song);
-                obSongList.sort((s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()) == 0 ? s1.getArtist().compareToIgnoreCase(s2.getArtist()) : s1.getTitle().compareToIgnoreCase(s2.getTitle()));
                 songList.setItems(obSongList);
                 resetSong();
                 saveToFile(obSongList);
@@ -190,7 +195,6 @@ public class SongLibController implements Initializable {
             selectedSong.setYear(yearField.getText());
             
             songList.setItems(obSongList);
-            obSongList.sort((s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()) == 0 ? s1.getArtist().compareToIgnoreCase(s2.getArtist()) : s1.getTitle().compareToIgnoreCase(s2.getTitle()));
             songList.refresh();
             saveToFile(obSongList);
             sendAlert(AlertType.CONFIRMATION, "Success", null, "Successfully edited song!");
