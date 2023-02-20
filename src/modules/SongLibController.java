@@ -149,16 +149,22 @@ public class SongLibController implements Initializable {
                 sendAlert(AlertType.CONFIRMATION, "Success", null, String.format("Successfully added %s by %s", title, artist));
             }
         }
+        saveToFile(obSongList);
     }
 
     public void editSong(ActionEvent event) {
         Song selectedSong = songList.getSelectionModel().getSelectedItem();
-
         if (selectedSong == null) {
             sendAlert(AlertType.ERROR, "Error", null, "Please select a song to edit");
         } else if (titleField.getText().isEmpty() || artistField.getText().isEmpty()) {
             sendAlert(AlertType.ERROR, "Error", null, "Please enter a title and artist");
         } else {
+            for (Song song : obSongList) {
+                if (song.getTitle().equals(titleField.getText()) && song.getArtist().equals(artistField.getText())) {
+                    sendAlert(AlertType.ERROR, "Error", null, "Song already exists");
+                    return;
+                }
+            }
             selectedSong.setTitle(titleField.getText());
             selectedSong.setArtist(artistField.getText());
             selectedSong.setAlbum(albumField.getText());
@@ -168,7 +174,7 @@ public class SongLibController implements Initializable {
         }
         
         return;
-        }
+    }
 
     public void resetSong() {
         titleField.setText("");
