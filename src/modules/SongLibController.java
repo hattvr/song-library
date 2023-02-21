@@ -52,9 +52,13 @@ public class SongLibController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             // Read the contents at startup and load them into the list view
-            readFile("src/attributes/songs.json");
-            songList.getSelectionModel().select(0);
-            refreshSelection();
+            readFile();
+
+            // If the list is not empty, select the first item
+            if (!obSongList.isEmpty()) {
+                songList.getSelectionModel().select(0);
+                refreshSelection();
+            }
 
             // Add a listener to list view selections
             songList.getSelectionModel().selectedItemProperty().addListener(this::selectionManager);
@@ -78,8 +82,20 @@ public class SongLibController implements Initializable {
     }
 
     // Reading the contents of a file and returning it as a string
-    private void readFile(String fileName) throws FileNotFoundException {
-        Path fp = Paths.get(fileName);
+    private void readFile() throws FileNotFoundException {
+        Path fp = Paths.get("attributes/songs.json");
+
+        if (!Files.exists(fp)) {
+            try {
+                Files.createFile(fp);
+                FileWriter writer = new FileWriter("attributes/songs.json");
+                writer.write("[]");
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
 
         try {
             String content = new String(Files.readAllBytes(fp), StandardCharsets.UTF_8);
@@ -115,7 +131,7 @@ public class SongLibController implements Initializable {
             songArray.put(songObject);
         }
         
-        try (FileWriter writer = new FileWriter("src/attributes/songs.json")) {
+        try (FileWriter writer = new FileWriter("attributes/songs.json")) {
             writer.write(songArray.toString(4));
         } catch (IOException e) {
             e.printStackTrace();
