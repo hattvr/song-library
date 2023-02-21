@@ -9,7 +9,7 @@ A CS213 assignment to design and implement an application with a graphical user 
 ## Project Stack
 
 - [Java FX](https://fxdocs.github.io/docs/html5/) - Software Integration
-- [org.json](https://jar-download.com/artifacts/org.json) - 
+- [org.json](https://jar-download.com/artifacts/org.json) - JSON Encoder/Decoder Package
 
 ## Contributors
 
