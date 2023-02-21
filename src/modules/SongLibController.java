@@ -83,12 +83,12 @@ public class SongLibController implements Initializable {
 
     // Reading the contents of a file and returning it as a string
     private void readFile() throws FileNotFoundException {
-        Path fp = Paths.get("attributes/songs.json");
+        Path fp = Paths.get("src/attributes/songs.json");
 
         if (!Files.exists(fp)) {
             try {
                 Files.createFile(fp);
-                FileWriter writer = new FileWriter("attributes/songs.json");
+                FileWriter writer = new FileWriter("src/attributes/songs.json");
                 writer.write("[]");
                 writer.close();
             } catch (IOException e) {
@@ -131,7 +131,7 @@ public class SongLibController implements Initializable {
             songArray.put(songObject);
         }
         
-        try (FileWriter writer = new FileWriter("attributes/songs.json")) {
+        try (FileWriter writer = new FileWriter("src/attributes/songs.json")) {
             writer.write(songArray.toString(4));
         } catch (IOException e) {
             e.printStackTrace();
