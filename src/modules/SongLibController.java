@@ -52,7 +52,7 @@ public class SongLibController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             // Read the contents at startup and load them into the list view
-            readFile("attributes/songs.json");
+            readFile("src/attributes/songs.json");
             songList.getSelectionModel().select(0);
             refreshSelection();
 
@@ -115,7 +115,7 @@ public class SongLibController implements Initializable {
             songArray.put(songObject);
         }
         
-        try (FileWriter writer = new FileWriter("attributes/songs.json")) {
+        try (FileWriter writer = new FileWriter("src/attributes/songs.json")) {
             writer.write(songArray.toString(4));
         } catch (IOException e) {
             e.printStackTrace();
