@@ -15,3 +15,6 @@ A CS213 assignment to design and implement an application with a graphical user 
 
 - Zaeem Zahid (zz446)
 - Shiv Patel (sp1957)
+
+## Final Grade
+40/40 Points (100%)
